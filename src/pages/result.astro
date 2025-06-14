@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { generateGoogleCalendarLink } from '../utils/calendar.ts';
+import matchaImage from '../assets/matcha.webp';
+
+const answer = Astro.url.searchParams.get('answer') || '';
+const cleanAnswer = answer.toLowerCase().trim();
+
+const isCorrect = cleanAnswer === 'matcha';
+const calendarLink = generateGoogleCalendarLink();
+
+---
+
+<Layout title="Quiz Result - Matcha Time">
+  <main class="min-h-screen bg-[#e6f4ea] flex items-center justify-center px-4 py-12 font-sans">
+    <div class="bg-white shadow-xl rounded-2xl w-full max-w-2xl p-8 sm:p-12 text-center animate-fade-up">
+      <h1 class={`text-3xl sm:text-4xl font-bold mb-4 ${
+        isCorrect
+          ? 'text-green-600 animate-bounce'
+          : 'text-red-500 animate-shake'
+      }`}>
+        {isCorrect ? '✅ CORRECT!' : '❌ WRONG.'}
+      </h1>
+
+      <p class="text-xl sm:text-2xl text-zinc-800 font-bold mb-4">
+        {isCorrect
+          ? 'You clearly know what time it is. 🍵'
+          : "It's always matcha time. ALWAYS."}
+      </p>
+
+      <img
+        src={matchaImage.src}
+        alt="Matcha cup"
+        class="w-96 max-w-full rounded-xl shadow-lg mx-auto mb-6 animate-pop-in"
+      />
+
+      <p class="text-lg text-zinc-700 mb-4">
+        {isCorrect
+          ? "Respect. You're one of us."
+          : "But hey, no worries — I've got a cup ready for you."}
+      </p>
+
+      <a
+        href={calendarLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl transition shadow animate-fade-up inline-block"
+      >
+        🍵 Add Matcha Time to Google Calendar
+      </a>
+    </div>
+  </main>
+</Layout>
